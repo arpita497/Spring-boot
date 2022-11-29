@@ -1,0 +1,14 @@
+---
+- name: Code deployment
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Create a Deployment
+    k8s:
+      state: present
+      src: deploy.yml
+
+  - name: Creating a NodePort Service for Web App
+    k8s:
+      state: present
+      src: service.yml
