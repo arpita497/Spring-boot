@@ -6,7 +6,30 @@
   - name: Create a Deployment
     k8s:
       state: present
-      src: deploy.yml
+      definition:
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: web-deploy
+          namespace: default
+          labels:
+            app: web
+        spec:
+          replicas: 2
+          selector:
+            matchLabels:
+              app: web
+          template:
+            metadata:
+              labels:
+                app: web
+            spec:
+              containers:
+                - name: spring-pod
+                  image: 237040306463.dkr.ecr.eu-central-1.amazonaws.com/test1:{{TAG}}
+                  imagePullPolicy: Always
+                  ports:
+                  - containerPort: 8080
 
   - name: Creating a NodePort Service for Web App
     k8s:
